@@ -12,12 +12,12 @@ ECRAN = pygame.display.set_mode((LARGEUR_FENETRE, HAUTEUR_FENETRE))
 horloge = pygame.time.Clock() # Pour contrôler la fréquence
 
 
-a1 = Asteroide.Asteroide(random.randint(0,1100),2) #Remplacer le maximum de random en rapport avec la largeur de la fenêtre.
+a1 = Asteroide.Asteroide(random.randint(0,1100),1) #Remplacer le maximum de random en rapport avec la largeur de la fenêtre.
 
 
 arretJeu = False
 while not arretJeu:
-    for event in pygame.event.get():
+        event = pygame.event.poll()
         if event.type == pygame.QUIT:
                arretJeu = True
         else:

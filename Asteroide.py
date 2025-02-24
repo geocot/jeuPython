@@ -10,9 +10,9 @@ class Asteroide:
     def __init__(self, alignementXDepart, vitesse):
         self._vitesse = vitesse
         self._couleursChoix = [(200, 200, 200), (150, 150, 150), (100, 200, 200), (200, 100, 200), (200, 200, 100), (250, 250, 250)]
-        self._formesChoix = [[[29,0],[39,18],[55,23],[40,40],[19,36],[0,35],[29,0]],  #En [X,Y]
-                        [[17, 0], [43, 1], [43, 23], [28, 40], [3, 36], [0, 18], [17, 0]],
-                        [[0, 26], [7, 4], [30, 0], [38, 11], [22, 33], [0, 23], [0, 26]]
+        self._formesChoix = [[[29,0],[39,18],[55,23],[40,40],[19,36],[0,35]],  #En [X,Y]
+                        [[17, 0], [43, 1], [43, 23], [28, 40], [3, 36], [0, 18]],
+                        [[0, 26], [7, 4], [30, 0], [38, 11], [22, 33], [0, 23] ]
                         ]
         self._forme = random.choice(self._formesChoix)
         self._couleur = random.choice(self._couleursChoix)
