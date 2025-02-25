@@ -1,25 +1,30 @@
 #Martin Couture
 import pygame
-import Asteroide
+import asteroide, collision
 import random
+import objetAnime
 
 pygame.init()
 
 HAUTEUR_FENETRE = 800
 LARGEUR_FENETRE = 1200
 COULEUR_FOND = (0,0,0)
+VITESSE_MAX = 6
+NOMBRE_ASTEROIDES_MAX = 20
 ECRAN = pygame.display.set_mode((LARGEUR_FENETRE, HAUTEUR_FENETRE))
 fond = pygame.Surface(ECRAN.get_size())
 fond.fill(COULEUR_FOND)
 ECRAN.blit(fond, (0,0))
 horloge = pygame.time.Clock() # Pour contrôler la fréquence
 
-
-a1 = Asteroide.Asteroide(random.randint(0,1100),random.randint(1,2)) #Remplacer le maximum de random en rapport avec la largeur de la fenêtre.
-a2 = Asteroide.Asteroide(random.randint(0,1100),random.randint(1,2)) #Remplacer le maximum de random en rapport avec la largeur de la fenêtre.
+objetAnime.ObjetAnime.setEcran(ECRAN) #initialisation de l'écran dans la méthode static dont hérite les objets animés
+collisions = pygame.sprite.Group()
 asteroides = pygame.sprite.Group()
-asteroides.add(a1)
-asteroides.add(a2)
+
+
+def ajoutAsteroide():
+    asteroides.add(asteroide.Asteroide(random.randint(0, 1100), 0, random.randint(1, VITESSE_MAX)))
+
 
 arretJeu = False
 while not arretJeu:
@@ -27,11 +32,26 @@ while not arretJeu:
         if event.type == pygame.QUIT:
                arretJeu = True
         else:
+            if len(asteroides.sprites())< NOMBRE_ASTEROIDES_MAX:
+                ajoutAsteroide()
             asteroides.clear(ECRAN, fond )
-            #a1.deplacer(ECRAN)
+            collisions.clear(ECRAN, fond)
+
+            #Détection des collisions entre astéroïde
+            asteroidesList = asteroides.sprites()
+            for i, a1 in enumerate(asteroidesList):
+                for a2 in asteroidesList[i + 1:]:
+                    if pygame.sprite.collide_mask(a1, a2):
+                        collisions.add(collision.Collision(a1.rect.x, a1.rect.y, 0))
+                        collisions.add(collision.Collision(a2.rect.x, a1.rect.y, 0))
+                        a1.kill()
+                        a2.kill()
+
+            collisions.draw(ECRAN)
             asteroides.update()
             asteroides.draw(ECRAN)
+            collisions.update()
             pygame.display.flip()
-            horloge.tick(60)
+            horloge.tick(30)
 
 pygame.quit()
