@@ -9,11 +9,17 @@ HAUTEUR_FENETRE = 800
 LARGEUR_FENETRE = 1200
 COULEUR_FOND = (0,0,0)
 ECRAN = pygame.display.set_mode((LARGEUR_FENETRE, HAUTEUR_FENETRE))
+fond = pygame.Surface(ECRAN.get_size())
+fond.fill(COULEUR_FOND)
+ECRAN.blit(fond, (0,0))
 horloge = pygame.time.Clock() # Pour contrôler la fréquence
 
 
-a1 = Asteroide.Asteroide(random.randint(0,1100),1) #Remplacer le maximum de random en rapport avec la largeur de la fenêtre.
-
+a1 = Asteroide.Asteroide(random.randint(0,1100),random.randint(1,2)) #Remplacer le maximum de random en rapport avec la largeur de la fenêtre.
+a2 = Asteroide.Asteroide(random.randint(0,1100),random.randint(1,2)) #Remplacer le maximum de random en rapport avec la largeur de la fenêtre.
+asteroides = pygame.sprite.Group()
+asteroides.add(a1)
+asteroides.add(a2)
 
 arretJeu = False
 while not arretJeu:
@@ -21,8 +27,10 @@ while not arretJeu:
         if event.type == pygame.QUIT:
                arretJeu = True
         else:
-            ECRAN.fill(COULEUR_FOND)
-            a1.deplacer(ECRAN)
+            asteroides.clear(ECRAN, fond )
+            #a1.deplacer(ECRAN)
+            asteroides.update()
+            asteroides.draw(ECRAN)
             pygame.display.flip()
             horloge.tick(60)
 

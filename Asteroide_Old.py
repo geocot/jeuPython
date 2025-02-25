@@ -1,11 +1,10 @@
 import pygame.draw
 import random
 
-class Asteroide(pygame.sprite.Sprite):
+class Asteroide:
     "Permet la création d'un astéroide"
 
     def __init__(self, alignementXDepart, vitesse):
-        #Avec l'héritage de Sprite, Il faut absolument avoir une propriété image et rect. Pas d'autres nom.
         self._vitesse = vitesse
         self._couleursChoix = [(200, 200, 200), (150, 150, 150), (100, 200, 200), (200, 100, 200), (200, 200, 100), (250, 250, 250)]
         self._formesChoix = [[[29,0],[39,18],[55,23],[40,40],[19,36],[0,35]],  #En [X,Y]
@@ -16,15 +15,6 @@ class Asteroide(pygame.sprite.Sprite):
         self._couleur = random.choice(self._couleursChoix)
         self._alignementXDepart = alignementXDepart
         self._calculRectangle() #Initialise l'enveloppe du rectangle de la forme choisie.
-        #Initialisation Sprite
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((self._rectangle.width, self._rectangle.height))
-        #self.image.fill((0,0,0))
-        pygame.draw.polygon(self.image, self._couleur, self._forme)
-        self.rect = self.image.get_rect()
-        #Position de départ de la surface
-        self.rect.x = self._alignementXDepart
-        self.rect.y = 0
 
     #Détermine l'enveloppe de l'astéroïde au départ
     def _calculRectangle(self):
@@ -40,7 +30,10 @@ class Asteroide(pygame.sprite.Sprite):
 
         self._rectangle = pygame.Rect((xMin,yMin),(largeur,hauteur))
 
-    def update(self):
-        self.rect.y += self._vitesse
-        self.rect.x = self._alignementXDepart
+    def deplacer(self, fenetre):
+        formeTempo = []
+        for coordonnee in self._forme:
+            formeTempo.append([coordonnee[0] + self._rectangle.left,coordonnee[1]+ self._rectangle.top])
 
+        self._rectangle = self._rectangle.move(0,self._vitesse)
+        pygame.draw.polygon(fenetre, self._couleur, formeTempo)
