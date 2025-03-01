@@ -1,5 +1,5 @@
-from images import objetJeu
-class ObjetJeuAnime(objetJeu.ObjetJeu):
+from images import abstractObjetJeu
+class ObjetJeuAnime(abstractObjetJeu.ObjetJeu):
     "Permet d'être la base des objets animés autre que le joueur"
 
     def __init__(self, coordXDepart, coordYDepart, vitesse ):#, fichierSon):

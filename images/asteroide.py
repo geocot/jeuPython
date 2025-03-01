@@ -3,15 +3,14 @@ import random
 from images import objetJeuAnime
 
 
-class Asteroide(pygame.sprite.Sprite, objetJeuAnime.ObjetJeuAnime):
+class Asteroide(objetJeuAnime.ObjetJeuAnime):
     "Permet la création d'un astéroide"
 
     def __init__(self, coordXDepart, coordYDepart, vitesse): # , fichierSon):
         objetJeuAnime.ObjetJeuAnime.__init__(self, coordXDepart, coordYDepart, vitesse)#, fichierSon)
-        #Initialisation Sprite
-        pygame.sprite.Sprite.__init__(self)
-        #Avec l'héritage de Sprite, Il faut absolument avoir une propriété image et rect. Pas d'autres nom.
 
+
+    def dessine(self):
         self._couleursChoix = [(200, 200, 200), (100, 100, 100), (175, 200, 200), (200, 175, 200), (200, 200, 175), (250, 250, 250)]
         self._formesChoix = [[[29,0],[39,18],[55,23],[40,40],[19,36],[0,35]],  #En [X,Y]
                         [[17, 0], [43, 1], [43, 23], [28, 40], [3, 36], [0, 18]],

@@ -1,12 +1,11 @@
 import pygame.draw
-import objetJeu
+from images import abstractObjetJeu
 
-class Fusee(objetJeu.ObjetJeu):
+
+class Fusee(abstractObjetJeu.ObjetJeu):
     "Affiche la position du joueur"
 
     def __init__(self, coordXDepart, coordYDepart):
         #Initialisation de la classe parent.
-        objetJeu.ObjetJeu.__init__(self, coordXDepart, coordYDepart)
-        # Initialisation Sprite.
-        pygame.sprite.Sprite.__init__(self)
+        abstractObjetJeu.ObjetJeu.__init__(self, coordXDepart, coordYDepart)
 
