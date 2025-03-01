@@ -1,6 +1,6 @@
 #Martin Couture
 import pygame, random
-from images import asteroide, collision, objetJeuAnime
+from images import asteroide, collision, objetJeuAnime, fusee
 
 pygame.init()
 
@@ -18,7 +18,8 @@ horloge = pygame.time.Clock() # Pour contrôler la fréquence
 objetJeuAnime.ObjetJeuAnime.setEcran(ECRAN) #initialisation de l'écran dans la méthode static dont hérite les objets animés
 collisions = pygame.sprite.Group()
 asteroides = pygame.sprite.Group()
-
+fusees = pygame.sprite.Group()
+fusees.add(fusee.Fusee(ECRAN.get_width()/2 ,ECRAN.get_height() -100))
 
 def ajoutAsteroide():
     asteroides.add(asteroide.Asteroide(random.randint(0, 1100), 0, random.randint(1, VITESSE_MAX)))
@@ -34,6 +35,8 @@ while not arretJeu:
                 ajoutAsteroide()
             asteroides.clear(ECRAN, fond )
             collisions.clear(ECRAN, fond)
+            fusees.clear(ECRAN,fond)
+
 
             #Détection des collisions entre astéroïde
             asteroidesList = asteroides.sprites()
@@ -45,10 +48,13 @@ while not arretJeu:
                         a1.kill()
                         a2.kill()
 
+
             collisions.draw(ECRAN)
             asteroides.update()
             asteroides.draw(ECRAN)
             collisions.update()
+            fusees.draw(ECRAN)
+            fusees.update()
             pygame.display.flip()
             horloge.tick(30)
 

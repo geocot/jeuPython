@@ -8,8 +8,6 @@ class Collision(objetJeuAnime.ObjetJeuAnime):
     def __init__(self, coordXDepart, coordYDepart, vitesse): # , fichierSon):
         objetJeuAnime.ObjetJeuAnime.__init__(self, coordXDepart, coordYDepart, vitesse)#, fichierSon)
 
-
-
     def dessine(self):
         self._rayon = 10
         self.image = pygame.Surface((50, 50))
