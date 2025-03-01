@@ -1,9 +1,7 @@
-import pygame
-class ObjetAnime():
-    "Permet d'être la base des objets animés"
+class ObjetJeu():
+    "Classe générique pour afficher des objets à l'écran"
 
-    def __init__(self, coordXDepart, coordYDepart, vitesse ):#, fichierSon):
-        self._vitesse = vitesse
+    def __init__(self, coordXDepart, coordYDepart ):#, fichierSon):
         self._coordXDepart = coordXDepart
         self._coordYDepart = coordYDepart
         #self._fichierSon = pygame.mixer.Sound(fichierSon)
@@ -13,7 +11,7 @@ class ObjetAnime():
 
     @staticmethod
     def setEcran(ecran):
-       ObjetAnime._ecran = ecran
+       ObjetJeu._ecran = ecran
 '''
     def emettre_son(self):
         self.son.play()

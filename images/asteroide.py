@@ -1,13 +1,13 @@
 import pygame.draw
 import random
-import objetAnime
+from images import objetJeuAnime
 
 
-class Asteroide(pygame.sprite.Sprite, objetAnime.ObjetAnime):
+class Asteroide(pygame.sprite.Sprite, objetJeuAnime.ObjetJeuAnime):
     "Permet la création d'un astéroide"
 
     def __init__(self, coordXDepart, coordYDepart, vitesse): # , fichierSon):
-        objetAnime.ObjetAnime.__init__(self,coordXDepart, coordYDepart, vitesse)#, fichierSon)
+        objetJeuAnime.ObjetJeuAnime.__init__(self, coordXDepart, coordYDepart, vitesse)#, fichierSon)
         #Initialisation Sprite
         pygame.sprite.Sprite.__init__(self)
         #Avec l'héritage de Sprite, Il faut absolument avoir une propriété image et rect. Pas d'autres nom.
@@ -20,8 +20,6 @@ class Asteroide(pygame.sprite.Sprite, objetAnime.ObjetAnime):
         self._forme = random.choice(self._formesChoix)
         self._couleur = random.choice(self._couleursChoix)
         self._calculRectangle() #Initialise l'enveloppe du rectangle de la forme choisie.
-        #Initialisation Sprite
-        pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((self._rectangle.width, self._rectangle.height))
         self.image.set_colorkey((0, 0, 0)) #Fond transparent
         pygame.draw.polygon(self.image, self._couleur, self._forme)
@@ -48,6 +46,6 @@ class Asteroide(pygame.sprite.Sprite, objetAnime.ObjetAnime):
     def update(self):
         self.rect.y += self._vitesse
         self.rect.x = self._coordXDepart
-        if not objetAnime.ObjetAnime._ecran.get_rect().contains(self.rect):
+        if not objetJeuAnime.ObjetJeuAnime._ecran.get_rect().contains(self.rect):
             self.kill()
 

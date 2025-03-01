@@ -1,8 +1,6 @@
 #Martin Couture
-import pygame
-import asteroide, collision
-import random
-import objetAnime
+import pygame, random
+from images import asteroide, collision, objetJeuAnime
 
 pygame.init()
 
@@ -17,7 +15,7 @@ fond.fill(COULEUR_FOND)
 ECRAN.blit(fond, (0,0))
 horloge = pygame.time.Clock() # Pour contrôler la fréquence
 
-objetAnime.ObjetAnime.setEcran(ECRAN) #initialisation de l'écran dans la méthode static dont hérite les objets animés
+objetJeuAnime.ObjetJeuAnime.setEcran(ECRAN) #initialisation de l'écran dans la méthode static dont hérite les objets animés
 collisions = pygame.sprite.Group()
 asteroides = pygame.sprite.Group()
 
