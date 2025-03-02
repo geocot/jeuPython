@@ -1,8 +1,8 @@
 import pygame.draw
-from images import objetJeuAnime
+from images import AbstractObjetJeuAnime
 
 
-class Fusee(objetJeuAnime.ObjetJeuAnime):
+class Fusee(AbstractObjetJeuAnime.ObjetJeuAnime):
     "Affiche la position du joueur"
 
     def __init__(self, coordXDepart, coordYDepart, vitesse):
@@ -14,7 +14,7 @@ class Fusee(objetJeuAnime.ObjetJeuAnime):
         self._xMinPos = -5
         self._mouvement = 0
         #Initialisation de la classe parent.
-        objetJeuAnime.ObjetJeuAnime.__init__(self, coordXDepart, coordYDepart, vitesse)
+        AbstractObjetJeuAnime.ObjetJeuAnime.__init__(self, coordXDepart, coordYDepart, vitesse)
 
     def dessine(self):
         self.image = pygame.Surface((30, 100))

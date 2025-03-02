@@ -1,12 +1,12 @@
 import random
 import pygame
-from images import objetJeuAnime
+from images import AbstractObjetJeuAnime
 
-class Collision(objetJeuAnime.ObjetJeuAnime):
+class Collision(AbstractObjetJeuAnime.ObjetJeuAnime):
     "Permet la création d'un astéroide"
 
     def __init__(self, coordXDepart, coordYDepart, vitesse): # , fichierSon):
-        objetJeuAnime.ObjetJeuAnime.__init__(self, coordXDepart, coordYDepart, vitesse)#, fichierSon)
+        AbstractObjetJeuAnime.ObjetJeuAnime.__init__(self, coordXDepart, coordYDepart, vitesse)#, fichierSon)
 
     def dessine(self):
         self._rayon = 10

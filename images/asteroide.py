@@ -1,13 +1,13 @@
 import pygame.draw
 import random
-from images import objetJeuAnime
+from images import AbstractObjetJeuAnime
 
 
-class Asteroide(objetJeuAnime.ObjetJeuAnime):
+class Asteroide(AbstractObjetJeuAnime.ObjetJeuAnime):
     "Permet la création d'un astéroide"
 
     def __init__(self, coordXDepart, coordYDepart, vitesse): # , fichierSon):
-        objetJeuAnime.ObjetJeuAnime.__init__(self, coordXDepart, coordYDepart, vitesse)#, fichierSon)
+        AbstractObjetJeuAnime.ObjetJeuAnime.__init__(self, coordXDepart, coordYDepart, vitesse)#, fichierSon)
 
 
     def dessine(self):
@@ -45,6 +45,6 @@ class Asteroide(objetJeuAnime.ObjetJeuAnime):
     def update(self):
         self.rect.y += self._vitesse
         self.rect.x = self._coordXDepart
-        if not objetJeuAnime.ObjetJeuAnime._ecran.get_rect().contains(self.rect):
+        if not AbstractObjetJeuAnime.ObjetJeuAnime._ecran.get_rect().contains(self.rect):
             self.kill()
 

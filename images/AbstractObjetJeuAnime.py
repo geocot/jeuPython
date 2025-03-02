@@ -1,12 +1,14 @@
 from abc import ABC, abstractmethod
 import pygame
+class ObjetJeuAnime(ABC, pygame.sprite.Sprite):
+    "Permet d'être la base des objets animés"
 
-class ObjetJeu(ABC, pygame.sprite.Sprite):
     "Classe générique pour afficher des objets à l'écran"
 
-    def __init__(self, coordXDepart, coordYDepart ):
+    def __init__(self, coordXDepart, coordYDepart,vitesse ):
         self._coordXDepart = coordXDepart
         self._coordYDepart = coordYDepart
+        self._vitesse = vitesse
         #self._fichierSon = pygame.mixer.Sound(fichierSon)
         #Initialisation Sprite
         pygame.sprite.Sprite.__init__(self)
@@ -23,4 +25,8 @@ class ObjetJeu(ABC, pygame.sprite.Sprite):
 
     @staticmethod
     def setEcran(ecran):
-       ObjetJeu._ecran = ecran
+       ObjetJeuAnime._ecran = ecran
+
+
+
+
