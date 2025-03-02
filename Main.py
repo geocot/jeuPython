@@ -19,7 +19,8 @@ objetJeuAnime.ObjetJeuAnime.setEcran(ECRAN) #initialisation de l'écran dans la 
 collisions = pygame.sprite.Group()
 asteroides = pygame.sprite.Group()
 fusees = pygame.sprite.Group()
-fusees.add(fusee.Fusee(ECRAN.get_width()/2 ,ECRAN.get_height() -100))
+fusee = fusee.Fusee(ECRAN.get_width()/2 ,ECRAN.get_height() -100, 10)
+fusees.add(fusee)
 
 def ajoutAsteroide():
     asteroides.add(asteroide.Asteroide(random.randint(0, 1100), 0, random.randint(1, VITESSE_MAX)))
@@ -37,6 +38,20 @@ while not arretJeu:
             collisions.clear(ECRAN, fond)
             fusees.clear(ECRAN,fond)
 
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_LEFT]:
+                fusee.controle(-1)
+            if keys[pygame.K_RIGHT]:
+                fusee.controle(1)
+
+
+            '''
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    fusee.controle(-1)
+                if event.key == pygame.K_RIGHT:
+                    fusee.controle(1)
+            '''
 
             #Détection des collisions entre astéroïde
             asteroidesList = asteroides.sprites()
