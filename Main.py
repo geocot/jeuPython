@@ -14,13 +14,17 @@ fond = pygame.Surface(ECRAN.get_size())
 fond.fill(COULEUR_FOND)
 ECRAN.blit(fond, (0,0))
 horloge = pygame.time.Clock() # Pour contrôler la fréquence
+freezeGame = False
 
 AbstractObjetJeuAnime.ObjetJeuAnime.setEcran(ECRAN) #initialisation de l'écran dans la méthode static dont hérite les objets animés
+#Respecter l'ordre d'affichage
+fusees = pygame.sprite.Group()
+fusee = fusee.Fusee(ECRAN.get_width() / 2, ECRAN.get_height() - 100, 5)
+fusees.add(fusee)
 collisions = pygame.sprite.Group()
 asteroides = pygame.sprite.Group()
-fusees = pygame.sprite.Group()
-fusee = fusee.Fusee(ECRAN.get_width()/2 ,ECRAN.get_height() -100, 5)
-fusees.add(fusee)
+
+
 
 def ajoutAsteroide():
     asteroides.add(asteroide.Asteroide(random.randint(0, 1100), 0, random.randint(1, VITESSE_MAX)))
@@ -54,18 +58,26 @@ while not arretJeu:
             for i, a1 in enumerate(asteroidesList):
                 for a2 in asteroidesList[i + 1:]:
                     if pygame.sprite.collide_mask(a1, a2):
-                        collisions.add(collision.Collision(a1.rect.x, a1.rect.y, 0))
-                        collisions.add(collision.Collision(a2.rect.x, a1.rect.y, 0))
+                        collisions.add(collision.Collision(a1.rect.x, a1.rect.y, 0, (150, 150,150), 10))
+                        collisions.add(collision.Collision(a2.rect.x, a1.rect.y, 0,(150, 150,150), 10))
                         a1.kill()
                         a2.kill()
 
+            # Détection des collisions avec la fusée
+            if pygame.sprite.groupcollide(fusees, asteroides, True, False):
+                collisions.add(collision.Collision(fusee.rect.x-35, fusee.rect.y, 0, (255,0,0), 50))
 
+                #Arrêt de l'animation lorsque collision.
+                freezeGame = True
+
+
+            if not freezeGame:
+                asteroides.update()
+                fusees.update()
             collisions.draw(ECRAN)
-            asteroides.update()
             asteroides.draw(ECRAN)
             collisions.update()
             fusees.draw(ECRAN)
-            fusees.update()
             pygame.display.flip()
             horloge.tick(60)
 

@@ -9,7 +9,7 @@ class Fusee(AbstractObjetJeuAnime.ObjetJeuAnime):
 
     def __init__(self, coordXDepart, coordYDepart, vitesse):
         self._rouge = (252, 50, 50)
-        self._couleurFusee = (15 , 152, 236)
+        self._couleurFusee = (252, 50, 50)
         self._grisPale = (220,220,220)
         self._vertFlamme = 240
         self._sensCouleurFlamme = 0
@@ -32,7 +32,7 @@ class Fusee(AbstractObjetJeuAnime.ObjetJeuAnime):
         #Affiche le body
         pygame.draw.ellipse(self.image, self._couleurFusee, (0, 10, 30, 75))
         #Affiche le bout
-        pygame.draw.circle(self.image, self._rouge, (15,8), 5 )
+        pygame.draw.polygon(self.image, self._grisPale, ((10,10),(15,0),(20,10)) )
         #Affiche ceinture
         pygame.draw.rect(self.image, self._grisPale, (0,40,48,20) )
         pygame.draw.rect(self.image, self._rouge, (self._xMinPos, 40, 10, 20))
