@@ -7,7 +7,7 @@ pygame.init()
 HAUTEUR_FENETRE = 800
 LARGEUR_FENETRE = 1200
 COULEUR_FOND = (0,0,0)
-VITESSE_MAX = 6
+VITESSE_MAX = 2
 NOMBRE_ASTEROIDES_MAX = 20
 ECRAN = pygame.display.set_mode((LARGEUR_FENETRE, HAUTEUR_FENETRE))
 fond = pygame.Surface(ECRAN.get_size())
@@ -19,7 +19,7 @@ AbstractObjetJeuAnime.ObjetJeuAnime.setEcran(ECRAN) #initialisation de l'écran 
 collisions = pygame.sprite.Group()
 asteroides = pygame.sprite.Group()
 fusees = pygame.sprite.Group()
-fusee = fusee.Fusee(ECRAN.get_width()/2 ,ECRAN.get_height() -100, 10)
+fusee = fusee.Fusee(ECRAN.get_width()/2 ,ECRAN.get_height() -100, 5)
 fusees.add(fusee)
 
 def ajoutAsteroide():
@@ -41,9 +41,13 @@ while not arretJeu:
             #Détection des flèches gauches et droites pour le mouvement de la fusée.
             keys = pygame.key.get_pressed()
             if keys[pygame.K_LEFT]:
-                fusee.controle(-1)
+                fusee.controle("g")
             if keys[pygame.K_RIGHT]:
-                fusee.controle(1)
+                fusee.controle("d")
+            if keys[pygame.K_UP]:
+                fusee.controle("h")
+            if keys[pygame.K_DOWN]:
+                fusee.controle("b")
 
             #Détection des collisions entre astéroïde
             asteroidesList = asteroides.sprites()
@@ -63,6 +67,6 @@ while not arretJeu:
             fusees.draw(ECRAN)
             fusees.update()
             pygame.display.flip()
-            horloge.tick(30)
+            horloge.tick(60)
 
 pygame.quit()
