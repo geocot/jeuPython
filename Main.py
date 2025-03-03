@@ -22,19 +22,22 @@ FUSEES = pygame.sprite.Group()
 COLLISIONS = pygame.sprite.Group()
 ASTEROIDES = pygame.sprite.Group()
 
-fusee = fusee.Fusee(ECRAN.get_width() / 2, ECRAN.get_height() - 100, 5)
-FUSEES.add(fusee)
+#Autres définitions des variables globales du jeu
+fusee = fusee.Fusee(ECRAN.get_width() / 2, ECRAN.get_height() - 100, 5) #Création de la fusée
+FUSEES.add(fusee) #Ajout de la fusée au groupe de sprites
 asteroideVitesseMax = 1 #Vitesse maximum des astéroides
 freezeGame = False #Arrêt des mouvements du jeu et non du jeu
-nombreAsteroideCourant= 1
+nombreAsteroideCourant= 1 #Nombre d'astéroïde courant pour le jeu
+pointage = 0  #Pointage de base du joueur
 
-
-point = 0
-def ajoutAsteroide():
-    global point
+def ajoutAsteroide(): #Pour ajouter des astéroïdes
+    global pointage #Variable globale pour les points. Les points sont calculés en rapport au nombre d'astéroïdes qui ont passé sur l'écran
     ASTEROIDES.add(asteroide.Asteroide(random.randint(0, 1100), 0, random.randint(1, asteroideVitesseMax)))
-    point +=1
+    pointage +=1
 
+#********************
+#***Départ du jeu****
+#********************
 arretJeu = False
 while not arretJeu:
         event = pygame.event.poll()
@@ -84,7 +87,7 @@ while not arretJeu:
                 if nombreAsteroideCourant < NOMBRE_ASTEROIDES_MAX:
                     nombreAsteroideCourant = nombreAsteroideCourant + 0.01
 
-                pygame.display.set_caption(f"Jeu de la fusée: Niveau {asteroideVitesseMax}: Score {point}")
+                pygame.display.set_caption(f"Jeu de la fusée: Niveau {asteroideVitesseMax}: Score {pointage}")
 
 
 
