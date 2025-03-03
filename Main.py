@@ -2,18 +2,24 @@
 import pygame, random, math
 from images import asteroide, collision, AbstractObjetJeuAnime, fusee, message
 
-pygame.init()
-
+pygame.init() #Initialisation de Pygame
+#Définition des variables de l'écran
 HAUTEUR_FENETRE = 800
 LARGEUR_FENETRE = 1200
 COULEUR_FOND = (0,0,0)
-vitesse_max = 1
-pygame.display.set_caption("Jeu de la fusée")
+pygame.display.set_caption("Jeu de la fusée") #Titre de la fenêtre
 ECRAN = pygame.display.set_mode((LARGEUR_FENETRE, HAUTEUR_FENETRE))
 fond = pygame.Surface(ECRAN.get_size())
-fond.fill(COULEUR_FOND)
+fond.fill(COULEUR_FOND) #Définition du fond d'écran en noir
 ECRAN.blit(fond, (0,0))
 horloge = pygame.time.Clock() # Pour contrôler la fréquence
+
+
+vitesse_max = 1
+
+
+
+
 freezeGame = False
 NOMBRE_ASTEROIDES_MAX = 30;
 nombreAsteroide= 1
@@ -60,14 +66,14 @@ while not arretJeu:
             for i, a1 in enumerate(asteroidesList):
                 for a2 in asteroidesList[i + 1:]:
                     if pygame.sprite.collide_mask(a1, a2):
-                        collisions.add(collision.Collision(a1.rect.x, a1.rect.y, 0, (150, 150,150), 10))
-                        collisions.add(collision.Collision(a2.rect.x, a1.rect.y, 0,(150, 150,150), 10))
+                        collisions.add(collision.Collision(a1.rect.x, a1.rect.y, 0,  10))
+                        collisions.add(collision.Collision(a2.rect.x, a1.rect.y, 0, 10))
                         a1.kill()
                         a2.kill()
 
             # Détection des collisions avec la fusée
             if pygame.sprite.groupcollide(fusees, asteroides, True, False):
-                collisions.add(collision.Collision(fusee.rect.x-35, fusee.rect.y, 0, (255,0,0), 50))
+                collisions.add(collision.Collision(fusee.rect.x-35, fusee.rect.y, 0,  50))
 
                 #Arrêt de l'animation lorsque collision.
                 freezeGame = True

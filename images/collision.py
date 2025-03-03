@@ -5,8 +5,8 @@ from images import AbstractObjetJeuAnime
 class Collision(AbstractObjetJeuAnime.ObjetJeuAnime):
     "Permet la création d'un astéroide"
 
-    def __init__(self, coordXDepart, coordYDepart, vitesse, couleur, rayon): # , fichierSon):
-        self._couleur = couleur
+    def __init__(self, coordXDepart, coordYDepart, vitesse,  rayon): # , fichierSon):
+        self._couleur = (150,150,150)
         self._rayon = rayon
         AbstractObjetJeuAnime.ObjetJeuAnime.__init__(self, coordXDepart, coordYDepart, vitesse)#, fichierSon)
 
