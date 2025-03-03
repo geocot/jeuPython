@@ -1,21 +1,22 @@
 #Martin Couture
-import pygame, random
-from images import asteroide, collision, AbstractObjetJeuAnime, fusee
+import pygame, random, math
+from images import asteroide, collision, AbstractObjetJeuAnime, fusee, message
 
 pygame.init()
 
 HAUTEUR_FENETRE = 800
 LARGEUR_FENETRE = 1200
 COULEUR_FOND = (0,0,0)
-VITESSE_MAX = 2
-NOMBRE_ASTEROIDES_MAX = 20
+vitesse_max = 1
+pygame.display.set_caption("Jeu de la fusée")
 ECRAN = pygame.display.set_mode((LARGEUR_FENETRE, HAUTEUR_FENETRE))
 fond = pygame.Surface(ECRAN.get_size())
 fond.fill(COULEUR_FOND)
 ECRAN.blit(fond, (0,0))
 horloge = pygame.time.Clock() # Pour contrôler la fréquence
 freezeGame = False
-
+NOMBRE_ASTEROIDES_MAX = 30;
+nombreAsteroide= 1
 AbstractObjetJeuAnime.ObjetJeuAnime.setEcran(ECRAN) #initialisation de l'écran dans la méthode static dont hérite les objets animés
 #Respecter l'ordre d'affichage
 fusees = pygame.sprite.Group()
@@ -24,11 +25,11 @@ fusees.add(fusee)
 collisions = pygame.sprite.Group()
 asteroides = pygame.sprite.Group()
 
-
-
+point = 0
 def ajoutAsteroide():
-    asteroides.add(asteroide.Asteroide(random.randint(0, 1100), 0, random.randint(1, VITESSE_MAX)))
-
+    global point
+    asteroides.add(asteroide.Asteroide(random.randint(0, 1100), 0, random.randint(1, vitesse_max)))
+    point +=1
 
 arretJeu = False
 while not arretJeu:
@@ -36,8 +37,9 @@ while not arretJeu:
         if event.type == pygame.QUIT:
                arretJeu = True
         else:
-            if len(asteroides.sprites())< NOMBRE_ASTEROIDES_MAX:
+            if len(asteroides.sprites())< nombreAsteroide:
                 ajoutAsteroide()
+
             asteroides.clear(ECRAN, fond )
             collisions.clear(ECRAN, fond)
             fusees.clear(ECRAN,fond)
@@ -70,15 +72,24 @@ while not arretJeu:
                 #Arrêt de l'animation lorsque collision.
                 freezeGame = True
 
-
             if not freezeGame:
                 asteroides.update()
                 fusees.update()
+                mSeconde = pygame.time.get_ticks()
+                vitesse_max = math.floor(mSeconde / 10000)+1
+                if nombreAsteroide < NOMBRE_ASTEROIDES_MAX:
+                    nombreAsteroide = nombreAsteroide + 0.01
+
+                pygame.display.set_caption(f"Jeu de la fusée: Niveau {vitesse_max}: Score {point}")
+
+
+
             collisions.draw(ECRAN)
             asteroides.draw(ECRAN)
             collisions.update()
             fusees.draw(ECRAN)
             pygame.display.flip()
             horloge.tick(60)
+
 
 pygame.quit()
