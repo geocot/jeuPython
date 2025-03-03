@@ -3,7 +3,7 @@ import random
 import pygame.draw
 from images import AbstractObjetJeuAnime
 
-
+#Classe pour l'affichage de la fusée
 class Fusee(AbstractObjetJeuAnime.ObjetJeuAnime):
     "Affiche la position du joueur"
 
