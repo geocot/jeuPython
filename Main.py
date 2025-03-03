@@ -39,14 +39,14 @@ def ajoutAsteroide(): #Pour ajouter des astéroïdes
 #***Départ du jeu****
 #********************
 arretJeu = False
-while not arretJeu:
+while not arretJeu: #Tant que l'usager n'a pas cliquer sur le x de la fenêtre
         event = pygame.event.poll()
         if event.type == pygame.QUIT:
                arretJeu = True
         else:
-            if len(ASTEROIDES.sprites())< nombreAsteroideCourant:
+            if len(ASTEROIDES.sprites())< nombreAsteroideCourant: #Ajout des astéroïdes tout au long du jeu
                 ajoutAsteroide()
-
+            #Gestion de l'animation, on efface d'abord
             ASTEROIDES.clear(ECRAN, FOND)
             COLLISIONS.clear(ECRAN, FOND)
             FUSEES.clear(ECRAN, FOND)
@@ -69,34 +69,33 @@ while not arretJeu:
                     if pygame.sprite.collide_mask(a1, a2):
                         COLLISIONS.add(collision.Collision(a1.rect.x, a1.rect.y, 0, 10))
                         COLLISIONS.add(collision.Collision(a2.rect.x, a1.rect.y, 0, 10))
-                        a1.kill()
-                        a2.kill()
+                        a1.kill() #Supprime les astéroïdes qui se collisionnent
+                        a2.kill() #Supprime les astéroïdes qui se collisionnent
 
             # Détection des collisions avec la fusée
             if pygame.sprite.groupcollide(FUSEES, ASTEROIDES, True, False):
                 COLLISIONS.add(collision.Collision(fusee.rect.x - 35, fusee.rect.y, 0, 50))
-
-                #Arrêt de l'animation lorsque collision.
+                #Arrêt de l'animation lorsque collision entre la fusée et un astéroïde.
                 freezeGame = True
 
-            if not freezeGame:
-                ASTEROIDES.update()
-                FUSEES.update()
-                mSeconde = pygame.time.get_ticks()
-                asteroideVitesseMax = math.floor(mSeconde / 10000) + 1
-                if nombreAsteroideCourant < NOMBRE_ASTEROIDES_MAX:
+            if not freezeGame: #Fait tourner l'animation lorsque le jeu fonctionne
+                ASTEROIDES.update() #Mise à jour des sprites des astéroïdes
+                FUSEES.update() #Mise à jour de la fusée
+                mSeconde = pygame.time.get_ticks() #Combien de temps s'est passé depuis le début du jeu
+                asteroideVitesseMax = math.floor(mSeconde / 10000) + 1 #Augmente graduellement la vitesse des astéroïdes
+                if nombreAsteroideCourant < NOMBRE_ASTEROIDES_MAX: #Augment graduellement le nombre d'astéroïde
                     nombreAsteroideCourant = nombreAsteroideCourant + 0.01
 
+                #Affiche le niveau et le score dans la barre de la fenêtre du jeu
                 pygame.display.set_caption(f"Jeu de la fusée: Niveau {asteroideVitesseMax}: Score {pointage}")
 
 
+            COLLISIONS.draw(ECRAN) #Dessine les collisions via le groupe de sprites
+            ASTEROIDES.draw(ECRAN) #Dessine les astérïdes via le groupe de sprites
+            COLLISIONS.update() #Mise à jour des collisions via le groupe de sprites
+            FUSEES.draw(ECRAN) #Affiche la fusée via le groupe de sprites
+            pygame.display.flip() #Anime
+            HORLOGE.tick(60) #60 image seconde
 
-            COLLISIONS.draw(ECRAN)
-            ASTEROIDES.draw(ECRAN)
-            COLLISIONS.update()
-            FUSEES.draw(ECRAN)
-            pygame.display.flip()
-            HORLOGE.tick(60)
 
-
-pygame.quit()
+pygame.quit() #Termine le jeu
