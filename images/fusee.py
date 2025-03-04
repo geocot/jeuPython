@@ -8,11 +8,12 @@ class Fusee(AbstractObjetJeuAnime.ObjetJeuAnime):
     "Affiche la position du joueur"
 
     def __init__(self, coordXDepart, coordYDepart, vitesse):
+        #Définition des variables de base
+        #Définition des couleurs
         self._rouge = (252, 50, 50)
         self._couleurFusee = (252, 50, 50)
         self._grisPale = (220,220,220)
-        self._vertFlamme = 240
-        self._sensCouleurFlamme = 0
+        self._vertFlamme = 240 #Composante verte de la couleur de la flamme de la fusée
         # Animation fusée
         self._xMinCarre = -10
         self._xMinPos = -5
@@ -21,6 +22,7 @@ class Fusee(AbstractObjetJeuAnime.ObjetJeuAnime):
         #Initialisation de la classe parent.
         AbstractObjetJeuAnime.ObjetJeuAnime.__init__(self, coordXDepart, coordYDepart, vitesse)
 
+    #Affichage de la fusée
     def dessine(self):
         self.image = pygame.Surface((30, 100))
         self.image.set_colorkey((0, 0, 0))  # Fond transparent
@@ -28,7 +30,7 @@ class Fusee(AbstractObjetJeuAnime.ObjetJeuAnime):
         # Position de départ de la surface
         self.rect.x = self._coordXDepart
         self.rect.y = self._coordYDepart
-        #Affichage des composants de la fusée
+        #Affichage des composantes de la fusée
         #Affiche le body
         pygame.draw.ellipse(self.image, self._couleurFusee, (0, 10, 30, 75))
         #Affiche le bout
@@ -45,12 +47,13 @@ class Fusee(AbstractObjetJeuAnime.ObjetJeuAnime):
     def controle(self, mouvement):
         self._mouvement = mouvement
 
-
+    #Animation de la fusée
     def update(self):
         #Animation flamme
         self._vertFlamme = random.randint(50, 240)
         pygame.draw.polygon(self.image, (226, self._vertFlamme, 15), ((20, 82), (10, 82), (15, 100)))
 
+        #Élimine les pattes au décollage
         if self._dectectionDepart:
             #Affiche pattes en noir
             pygame.draw.polygon(self.image, (0,0,0), ((0, 100), (5, 100), (15, 80), (10, 80))) #Gauche
