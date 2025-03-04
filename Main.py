@@ -1,8 +1,14 @@
 #Martin Couture
+#Sound Effect by irinairinafomicheva from Pixabay
 import pygame, random, math
+
 from images import asteroide, collision, AbstractObjetJeuAnime, fusee, message
 
 pygame.init() #Initialisation de Pygame
+#Sons
+pygame.mixer.init() #Initialisation du son
+SON_BOUM = pygame.mixer.Sound("boum.mp3") #Constante pour le son boum de la fusée
+SON_BIP = pygame.mixer.Sound("bip.mp3")#Constante pour le son d'arrivé d'un astéroïde
 pygame.display.set_caption("Jeu de la fusée") #Titre de la fenêtre
 #Définition des variables de l'écran et création de l'écran
 HAUTEUR_FENETRE = 800
@@ -14,13 +20,14 @@ FOND.fill(COULEUR_FOND) #Définition du fond d'écran en noir
 ECRAN.blit(FOND, (0, 0))
 HORLOGE = pygame.time.Clock() # Pour contrôler la fréquence
 AbstractObjetJeuAnime.ObjetJeuAnime.setEcran(ECRAN) #initialisation de l'écran dans la méthode static dont hérite les objets animés
-
 #Constantes du jeu
 NOMBRE_ASTEROIDES_MAX = 30; #Constante pour le nombre d'astéroïdes max à afficher.
 #Respecter l'ordre d'affichage
+MESSAGES = pygame.sprite.Group()
 FUSEES = pygame.sprite.Group()
 COLLISIONS = pygame.sprite.Group()
 ASTEROIDES = pygame.sprite.Group()
+
 
 #Autres définitions des variables globales du jeu
 fusee = fusee.Fusee(ECRAN.get_width() / 2, ECRAN.get_height() - 100, 5) #Création de la fusée
@@ -32,8 +39,12 @@ pointage = 0  #Pointage de base du joueur
 
 def ajoutAsteroide(): #Pour ajouter des astéroïdes
     global pointage #Variable globale pour les points. Les points sont calculés en rapport au nombre d'astéroïdes qui ont passé sur l'écran
-    ASTEROIDES.add(asteroide.Asteroide(random.randint(0, 1100), 0, random.randint(1, asteroideVitesseMax)))
+    a = asteroide.Asteroide(random.randint(0, 1100), 0, random.randint(1, asteroideVitesseMax))
+    a.image = a.image.copy().convert_alpha()
+    ASTEROIDES.add(a)
     pointage +=1
+    SON_BIP.play()
+
 
 #********************
 #***Départ du jeu****
@@ -50,6 +61,7 @@ while not arretJeu: #Tant que l'usager n'a pas cliquer sur le x de la fenêtre
             ASTEROIDES.clear(ECRAN, FOND)
             COLLISIONS.clear(ECRAN, FOND)
             FUSEES.clear(ECRAN, FOND)
+
 
             #Détection des flèches gauches et droites pour le mouvement de la fusée.
             keys = pygame.key.get_pressed()
@@ -72,30 +84,42 @@ while not arretJeu: #Tant que l'usager n'a pas cliquer sur le x de la fenêtre
                         a1.kill() #Supprime les astéroïdes qui se collisionnent
                         a2.kill() #Supprime les astéroïdes qui se collisionnent
 
-            # Détection des collisions avec la fusée
+            # Détection des collisions avec la fusée. Ici pour affichage par dessus les astéroïdes
             if pygame.sprite.groupcollide(FUSEES, ASTEROIDES, True, False):
                 COLLISIONS.add(collision.Collision(fusee.rect.x - 35, fusee.rect.y, 0, 50))
+                SON_BOUM.play()
                 #Arrêt de l'animation lorsque collision entre la fusée et un astéroïde.
                 freezeGame = True
 
-            if not freezeGame: #Fait tourner l'animation lorsque le jeu fonctionne
-                ASTEROIDES.update() #Mise à jour des sprites des astéroïdes
-                FUSEES.update() #Mise à jour de la fusée
-                mSeconde = pygame.time.get_ticks() #Combien de temps s'est passé depuis le début du jeu
-                asteroideVitesseMax = math.floor(mSeconde / 10000) + 1 #Augmente graduellement la vitesse des astéroïdes
-                if nombreAsteroideCourant < NOMBRE_ASTEROIDES_MAX: #Augment graduellement le nombre d'astéroïde
-                    nombreAsteroideCourant = nombreAsteroideCourant + 0.01
+            #Affiche le message de fin si le jeu est terminé
+            if freezeGame:
+                nombreAsteroideCourant = 0 #Arrêt des astéroïdes
+                #afficheMessageFin()
+                m = message.Message(LARGEUR_FENETRE/3,HAUTEUR_FENETRE/3,0, f"Oups c'est terminé, votre score {pointage}")
+                MESSAGES.add(m)
+                MESSAGES.draw(ECRAN)
+                MESSAGES.update()
 
-                #Affiche le niveau et le score dans la barre de la fenêtre du jeu
-                pygame.display.set_caption(f"Jeu de la fusée: Niveau {asteroideVitesseMax}: Score {pointage}")
+            #if not freezeGame: #Fait tourner l'animation lorsque le jeu fonctionne
+            ASTEROIDES.update() #Mise à jour des sprites des astéroïdes
+            FUSEES.update() #Mise à jour de la fusée
+            #Ajustement de la difficulté du jeu
+            mSeconde = pygame.time.get_ticks() #Combien de temps s'est passé depuis le début du jeu
+            asteroideVitesseMax = math.floor(mSeconde / 10000) + 1 #Augmente graduellement la vitesse des astéroïdes
+            if nombreAsteroideCourant < NOMBRE_ASTEROIDES_MAX: #Augment graduellement le nombre d'astéroïde
+                nombreAsteroideCourant = nombreAsteroideCourant + 0.01
 
+            #Affiche le niveau et le score dans la barre de la fenêtre du jeu
+            pygame.display.set_caption(f"Jeu de la fusée: Niveau {asteroideVitesseMax}: Score {pointage}")
+            ASTEROIDES.draw(ECRAN)  # Dessine les astérïdes via le groupe de sprites
 
             COLLISIONS.draw(ECRAN) #Dessine les collisions via le groupe de sprites
-            ASTEROIDES.draw(ECRAN) #Dessine les astérïdes via le groupe de sprites
             COLLISIONS.update() #Mise à jour des collisions via le groupe de sprites
             FUSEES.draw(ECRAN) #Affiche la fusée via le groupe de sprites
             pygame.display.flip() #Anime
             HORLOGE.tick(60) #60 image seconde
+
+
 
 
 pygame.quit() #Termine le jeu

@@ -22,13 +22,16 @@ class Asteroide(AbstractObjetJeuAnime.ObjetJeuAnime):
         self._couleur = random.choice(self._couleursChoix)
         self._calculRectangle() #Initialise l'enveloppe du rectangle de la forme choisie.
         self.image = pygame.Surface((self._rectangle.width, self._rectangle.height))
-        self.image.set_colorkey((0, 0, 0)) #Fond transparent
+        self.image.set_colorkey([0,0,0])
         pygame.draw.polygon(self.image, self._couleur, self._forme) #Affiche la forme
+
         self.image = pygame.transform.rotate(self.image, random.randint(0,360))  # Rotation aléatoire
         self.rect = self.image.get_rect()
         #Position de départ de la surface
         self.rect.x = self._coordXDepart
         self.rect.y = 0
+
+
 
     #Détermine l'enveloppe de l'astéroïde au départ
     #Comme les formes sont différentes, la méthode calcule le rectangle le plus près de la forme.

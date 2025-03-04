@@ -1,26 +1,30 @@
-from abc import ABC, abstractmethod
 import pygame
 from images import AbstractObjetJeuAnime
-class Pointage(AbstractObjetJeuAnime.ObjetJeuAnime):
-    "Pour l'affichage des informations sur le jeu"
 
-    def __init__(self, coordXDepart, coordYDepart, vitesse):  # , fichierSon):
-        AbstractObjetJeuAnime.ObjetJeuAnime.__init__(self, coordXDepart, coordYDepart, vitesse)  # , fichierSon)
+#Classe pour afficher les collisions
+class Message(AbstractObjetJeuAnime.ObjetJeuAnime):
+    "Permet la création d'un message"
+    #Constructeur
+    def __init__(self, coordXDepart, coordYDepart, vitesse, texte  ):
+        self._couleur = (255,0,0) #Couleur rouge
+        self._texte = texte
+        self.font = pygame.font.SysFont("Arial", 30, 1, 1)
+        #Initialise la classe parente
+        AbstractObjetJeuAnime.ObjetJeuAnime.__init__(self, coordXDepart, coordYDepart, vitesse)#, fichierSon)
 
+    #Pour dessiner le message
     def dessine(self):
-        self.image = pygame.Surface((200, 200))
-        #self.image.set_colorkey((0, 0, 0))  # Fond transparent
-        #self.rect = self.image.get_rect()
-        # Position de départ de la surface
-        #self.rect.x = self._coordXDepart
-        #self.rect.y = self._coordYDepart
-        #Texte
-        self._font = pygame.font.SysFont("Arial", 20, 1, 1)
-        #self.image.fill((0,0,0))
-        titre = self._font.render("Jeu de la fusée", 0, (255,255,255))
-        AbstractObjetJeuAnime.ObjetJeuAnime._ecran.blit(titre , (10,10))
+        #Pour le draw, il doit y avoir un self.image et un self.rect
+        #print(AbstractObjetJeuAnime.ObjetJeuAnime._ecran.get_width())
+        self.image = pygame.Surface((AbstractObjetJeuAnime.ObjetJeuAnime._ecran.get_width(), 300))
+        self.rect = self.image.get_rect()
+        self.image.fill((0, 0, 0))
+        texte = self.font.render(self._texte, True, self._couleur)
+        self.image.blit(texte, (self._coordXDepart, self._coordYDepart))
 
+
+    #Pour l'animation de la collision
     def update(self):
-        pass
-
+        texte = self.font.render(self._texte, True, self._couleur)
+        self.image.blit(texte, (self._coordXDepart, self._coordYDepart))
 
