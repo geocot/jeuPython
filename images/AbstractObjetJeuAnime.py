@@ -1,3 +1,5 @@
+#Martin Couture mars 2025
+#https://github.com/geocot/jeuPython
 from abc import ABC, abstractmethod
 import pygame
 #Classe abstraite de laquelle les classes d'éléments animés vont hériter.

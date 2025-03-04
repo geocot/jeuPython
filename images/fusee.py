@@ -1,5 +1,6 @@
+#Martin Couture mars 2025
+#https://github.com/geocot/jeuPython
 import random
-
 import pygame.draw
 from images import AbstractObjetJeuAnime
 
