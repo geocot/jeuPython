@@ -1,4 +1,4 @@
-#Martin Couture mars 2025
+#Martin Couture. mars 2025
 #https://github.com/geocot/jeuPython
 from abc import ABC, abstractmethod
 import pygame

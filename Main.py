@@ -1,4 +1,4 @@
-#Martin Couture mars 2025
+#Martin Couture. mars 2025
 #https://github.com/geocot/jeuPython
 #Sound Effect by irinairinafomicheva from Pixabay
 import pygame, random, math
