@@ -9,7 +9,6 @@ class ObjetJeuAnime(ABC, pygame.sprite.Sprite):
         self._coordXDepart = coordXDepart
         self._coordYDepart = coordYDepart
         self._vitesse = vitesse
-        #self._fichierSon = pygame.mixer.Sound(fichierSon)
         #Initialisation Sprite
         pygame.sprite.Sprite.__init__(self)
         #Avec l'héritage de Sprite, Il faut absolument avoir une propriété image et rect. Pas d'autres nom

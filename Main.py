@@ -88,6 +88,8 @@ while not arretJeu: #Tant que l'usager n'a pas cliquer sur le x de la fenêtre
             if pygame.sprite.groupcollide(FUSEES, ASTEROIDES, True, False):
                 COLLISIONS.add(collision.Collision(fusee.rect.x - 35, fusee.rect.y, 0, 50))
                 SON_BOUM.play()
+                m = message.Message(LARGEUR_FENETRE/3,HAUTEUR_FENETRE/3,0, f"Oups c'est terminé, votre score {pointage}")
+                MESSAGES.add(m)
                 #Arrêt de l'animation lorsque collision entre la fusée et un astéroïde.
                 freezeGame = True
 
@@ -95,12 +97,9 @@ while not arretJeu: #Tant que l'usager n'a pas cliquer sur le x de la fenêtre
             if freezeGame:
                 nombreAsteroideCourant = 0 #Arrêt des astéroïdes
                 #afficheMessageFin()
-                m = message.Message(LARGEUR_FENETRE/3,HAUTEUR_FENETRE/3,0, f"Oups c'est terminé, votre score {pointage}")
-                MESSAGES.add(m)
                 MESSAGES.draw(ECRAN)
                 MESSAGES.update()
 
-            #if not freezeGame: #Fait tourner l'animation lorsque le jeu fonctionne
             ASTEROIDES.update() #Mise à jour des sprites des astéroïdes
             FUSEES.update() #Mise à jour de la fusée
             #Ajustement de la difficulté du jeu
