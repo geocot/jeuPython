@@ -15,7 +15,6 @@ class Message(AbstractObjetJeuAnime.ObjetJeuAnime):
     #Pour dessiner le message
     def dessine(self):
         #Pour le draw, il doit y avoir un self.image et un self.rect
-        #print(AbstractObjetJeuAnime.ObjetJeuAnime._ecran.get_width())
         self.image = pygame.Surface((AbstractObjetJeuAnime.ObjetJeuAnime._ecran.get_width(), 300))
         self.rect = self.image.get_rect()
         self.image.fill((0, 0, 0))
